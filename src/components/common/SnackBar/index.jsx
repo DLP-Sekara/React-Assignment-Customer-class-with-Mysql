@@ -2,6 +2,7 @@ import { Component } from "react";
 import PropTypes from 'prop-types';
 import { Snackbar } from "@mui/material";
 import Alert from '@mui/material/Alert';
+import React from 'react';
 
 class GDSESnackBar extends Component {
     static propTypes = {
