@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {Grid, Typography} from "@mui/material";
 import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
 import Button from '../../components/common/Button';
-import CustomerService from "../../services/CustomerService";
 import SnackBar from "../../components/common/SnackBar";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,6 +14,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import EditIcon from '@mui/icons-material/Edit';
+import ItemService from "../../services/ItemService";
+import CustomerService from "../../services/CustomerService";
 
 class Item extends Component {
     constructor(props) {
@@ -41,18 +42,88 @@ class Item extends Component {
         let formData=this.state.formData;
 
         if(this.state.btnLabel === "save") {
-
+            console.log("check this :"+formData)
+            let res=await ItemService.postItem(formData)
+            if (res.status === 200) {
+                this.setState({
+                    alert: true,
+                    message: res.data.message,
+                    severity: 'success'
+                });
+                this.clearFields();
+                this.loadData();
+            } else {
+                this.setState({
+                    alert: true,
+                    message: res.response.data.message,
+                    severity: 'error'
+                });
+            }
         }else{
-
+            let res = await ItemService.putItem(formData);
+            if(res.status === 200) {
+                this.setState({
+                    alert: true,
+                    message: res.data.message,
+                    severity: 'success',
+                    btnLabel: 'save',
+                    btnColor: 'primary'
+                });
+                this.clearFields();
+                this.loadData();
+            } else {
+                this.setState({
+                    alert: true,
+                    message: res.response.data.message,
+                    severity: 'error'
+                });
+            }
         }
     }
+
+    deleteItem = async (code) => {
+        let params = {
+            code: code
+        }
+        let res = await ItemService.deleteItem(params);
+
+        if(res.status === 200) {
+            this.setState({
+                alert: true,
+                message: res.data.message,
+                severity: 'success'
+            });
+            this.loadData();
+        } else {
+            this.setState({
+                alert: true,
+                message: res.data.message,
+                severity: 'error'
+            });
+        }
+    };
+
+    updateItem = (data) => {
+        console.log(data)
+
+        this.setState({
+            btnLabel: 'update',
+            btnColor: 'secondary',
+            formData: {
+                code: data.code,
+                name: data.name,
+                price: data.price,
+                qty: data.qty
+            }
+        });
+    };
 
     componentDidMount() {
         this.loadData();
     }
 
     loadData = async () => {
-        let res = await CustomerService.fetchCustomer();
+        let res = await ItemService.fetchItem();
 
         if (res.status === 200) {
             this.setState({
