@@ -163,12 +163,13 @@ class Customer extends Component {
                         <Grid item lg={12} xs={12} sm={12} md={12}>
                             <Typography variant="h2">Customer Manage</Typography>
                         </Grid>
+
                         <Grid item xs={12} sm={12} md={6} lg={6}>
                             <Typography variant="subtitle1">Customer Id</Typography>
                             <TextValidator
                                 id="outlinedbasic"
                                 placeholder="Customer Id"
-                                variant="outlined"
+                                variant ="outlined"
                                 size="small"
                                 style={{ width: '100%' }}
                                 value={this.state.formData.nic}
@@ -231,6 +232,7 @@ class Customer extends Component {
                                 validators={['required']}
                             />
                         </Grid>
+
                         <Grid container style={{ marginTop: '10px' }} direction="row" justifyContent="flex-end" alignItems="center">
                             <GDSEButton label={this.state.btnLabel} type="submit" size="small" color={this.state.btnColor} variant="contained"/>
                         </Grid>
