@@ -73,38 +73,6 @@ class Customer extends Component {
         });
     };
 
-    clearFields = () => {
-        this.setState({
-            formData: {
-                nic: '',
-                name: '',
-                address: '',
-                contact: ''
-            }
-        });
-    };
-
-    // ------- React Map function example -------
-    exampleForMap = () => {
-        this.state.data.map((value, index) => {
-            console.log(value)   // access element one by one
-        })
-    };
-
-    loadData = async () => {
-        let res = await CustomerService.fetchCustomer();
-
-        if (res.status === 200) {
-            this.setState({
-                data: res.data.data
-            });
-        }
-        console.log(this.state.data)    // print customers array
-
-        this.exampleForMap()
-
-    };
-
     submitCustomer = async () => {
         let formData = this.state.formData;
 
@@ -150,9 +118,42 @@ class Customer extends Component {
         }
     };
 
+
     componentDidMount() {
         this.loadData();
     }
+
+    loadData = async () => {
+        let res = await CustomerService.fetchCustomer();
+
+        if (res.status === 200) {
+            this.setState({
+                data: res.data.data
+            });
+        }
+        console.log(this.state.data)    // print customers array
+
+        this.exampleForMap()
+
+    };
+
+    // ------- React Map function example -------
+    exampleForMap = () => {
+        this.state.data.map((value, index) => {
+            console.log(value)   // access element one by one
+        })
+    };
+
+    clearFields = () => {
+        this.setState({
+            formData: {
+                nic: '',
+                name: '',
+                address: '',
+                contact: ''
+            }
+        });
+    };
 
     render() {
         return (
