@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { Grid, Typography } from "@mui/material";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import GDSEButton from '../../components/common/Button';
+import Button from '../../components/common/Button';
 import CustomerService from "../../services/CustomerService";
-import GDSESnackBar from "../../components/common/SnackBar";
+import SnackBar from "../../components/common/SnackBar";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -125,10 +125,74 @@ render(){
 
                 {/*button*/}
                 <Grid container style={{ marginTop: '10px' }} direction="row" justifyContent="flex-end" alignItems="center">
-                    <GDSEButton label={this.state.btnLabel} type="submit" size="small" color={this.state.btnColor} variant="contained"/>
+                    <Button label={this.state.btnLabel} type="submit" size="small" color={this.state.btnColor} variant="contained"/>
                 </Grid>
             </Grid>
          </ValidatorForm>
+
+           {/*table area*/}
+            <Grid contaner style={{ marginTop: '15px' }}>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} aria-label="item table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="left">Item Code</TableCell>
+                                <TableCell align="left">Item Name</TableCell>
+                                <TableCell align="left">Item Price</TableCell>
+                                <TableCell align="left">Item Qty</TableCell>
+                                <TableCell align="left">Action</TableCell>
+                            </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                            {
+                                this.state.data.map((row) => (
+                                    <TableRow>
+                                        <TableCell align="left">{row.code}</TableCell>
+                                        <TableCell align="left">{row.name}</TableCell>
+                                        <TableCell align="left">{row.price}</TableCell>
+                                        <TableCell align="left">{row.qty}</TableCell>
+                                        <TableCell align="left">
+                                            <Tooltip title="Edit">
+                                                <IconButton
+                                                    onClick={() => {
+                                                        console.log("edit icon clicked!")
+                                                        this.updateItem(row);
+                                                    }}
+                                                >
+                                                    <EditIcon color="primary" />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title="Delete">
+                                                <IconButton
+                                                    onClick={() => {
+                                                        this.deleteItem(row.code)
+                                                    }}
+                                                >
+                                                    <DeleteIcon color="error" />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Grid>
+
+            {/*snack bar*/}
+            <SnackBar
+                open={this.state.alert}
+                onClose={() => {
+                    this.setState({ alert: false })
+                }}
+                message={this.state.message}
+                autoHideDuration={3000}
+                severity={this.state.severity}
+                variant="filled"
+            />
+
         </>
     )
 }

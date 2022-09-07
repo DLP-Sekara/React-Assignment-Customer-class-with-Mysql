@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { Grid, Typography } from "@mui/material";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import GDSEButton from '../../components/common/Button';
+import Button from '../../components/common/Button';
 import CustomerService from "../../services/CustomerService";
-import GDSESnackBar from "../../components/common/SnackBar";
+import SnackBar from "../../components/common/SnackBar";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -234,10 +234,11 @@ class Customer extends Component {
                         </Grid>
 
                         <Grid container style={{ marginTop: '10px' }} direction="row" justifyContent="flex-end" alignItems="center">
-                            <GDSEButton label={this.state.btnLabel} type="submit" size="small" color={this.state.btnColor} variant="contained"/>
+                            <Button label={this.state.btnLabel} type="submit" size="small" color={this.state.btnColor} variant="contained"/>
                         </Grid>
                     </Grid>
                 </ValidatorForm>
+
                 <Grid contaner style={{ marginTop: '15px' }}>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="customer table">
@@ -286,7 +287,8 @@ class Customer extends Component {
                         </Table>
                     </TableContainer>
                 </Grid>
-                <GDSESnackBar
+
+                <SnackBar
                     open={this.state.alert}
                     onClose={() => {
                         this.setState({ alert: false })
